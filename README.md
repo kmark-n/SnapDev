@@ -1,33 +1,42 @@
-🛠️ SnapDev
-An AI-powered multi-agent coding assistant built with LangGraph.
+# 🛠️ SnapDev
 
-SnapDev transforms natural language prompts into complete, working projects by simulating a real-world engineering workflow. Unlike simple chat models, SnapDev acts as a coordinated team of specialized agents to architect and write code file-by-file.
+**An AI-powered multi-agent coding assistant built with LangGraph**
 
-🏗️ The Multi-Agent Architecture
-SnapDev utilizes three distinct agents to handle the development lifecycle:
-Planner Agent – Analyzes your request and generates a detailed project plan. 
-Architect Agent – Breaks down the plan into specific engineering tasks with explicit context for each file. 
-Coder Agent – Implements each task, writes directly into files, and uses available tools like a real developer.
+SnapDev transforms natural language prompts into complete, working projects. For example, you give a prompt, and it builds a fully functional software application.
 
-🚀 Getting Started
-Prerequisites
-uv: A fast Python package installer. .
+---
 
-Groq API Key: Required for the LLM inference. .
+## 🏗️ Multi-Agent Architecture
 
-⚙️ Installation & Setup
-Initialize Environment
+SnapDev utilizes three distinct agents to manage the development lifecycle:
 
-Install Dependencies
+* **Planner Agent** – Analyzes your request and generates a detailed project plan.
+* **Architect Agent** – Breaks the plan into specific engineering tasks with explicit context for each file.
+* **Coder Agent** – Implements each task, writes directly into files, and uses available tools like a real developer.
 
-Configure Environment
-Create a .env file based on .sample_env:
+---
 
-Run the Application
+## 🚀 Getting Started
 
-🧪 Example Prompts
-"Build a colorful modern todo app in HTML, CSS, and JS."
+### Prerequisites
 
-"Create a Python script that scrapes weather data and saves it to a CSV."
+* **uv** – A fast Python package installer
+* **Groq API Key** – Required for LLM inference
 
-"Build a simple calculator web application."
+---
+
+## ⚙️ Installation & Setup
+
+* Initialize environment
+* Install dependencies
+* Configure environment by creating a `.env` file based on `.sample_env`
+* Run the application
+
+---
+
+## 🧪 Example Prompts
+
+* “Build a colorful modern todo app in HTML, CSS, and JS.”
+* “Build a simple calculator web application.”
+
+---
