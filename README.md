@@ -14,7 +14,7 @@ SnapDev utilizes three distinct agents to manage the development lifecycle:
 * **Architect Agent** – Breaks the plan into specific engineering tasks with explicit context for each file.
 * **Coder Agent** – Implements each task, writes directly into files, and uses available tools like a real developer.
 
-* ![SnapDev Screenshot](resources/SnapDev.png)
+* ![SnapDev Screenshot](resources/snapdev.png)
 
 
 ---
