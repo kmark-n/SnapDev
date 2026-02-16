@@ -1,25 +1,33 @@
-# SnapDev
-An automated AI agent that builds fully functional software applications given a prompt.
 🛠️ SnapDev
-An AI-powered coding assistant built using LangGraph.
-It works like a multi-agent development team that can take a natural language request and transform it into a complete, working project — file by file — using real developer workflows.
-For instance: You give a prompt and it builds a fully fuctional software application.
-🏗️ Architecture
-Planner Agent – Analyzes your request and generates a detailed project plan.
-Architect Agent – Breaks down the plan into specific engineering tasks with explicit context for each file.
+An AI-powered multi-agent coding assistant built with LangGraph.
+
+SnapDev transforms natural language prompts into complete, working projects by simulating a real-world engineering workflow. Unlike simple chat models, SnapDev acts as a coordinated team of specialized agents to architect and write code file-by-file.
+
+🏗️ The Multi-Agent Architecture
+SnapDev utilizes three distinct agents to handle the development lifecycle:
+Planner Agent – Analyzes your request and generates a detailed project plan. 
+Architect Agent – Breaks down the plan into specific engineering tasks with explicit context for each file. 
 Coder Agent – Implements each task, writes directly into files, and uses available tools like a real developer.
-Coder Agent Architecture
+
 🚀 Getting Started
 Prerequisites
-Make sure you have uv installed, follow the instructions here to install it.
-Ensure that you have created a groq account and have your API key ready. Create an API key here.
-⚙️ Instsllstion and Startup
-Create a virtual environment using: uv venv and activate it using source .venv/bin/activate
-Install the dependencies using: uv pip install -r pyproject.toml
-Create a .env file and add the variables and their respective values mentioned in the .sample_env file
-Now that we are done with all the set-up & installation steps we can start the application using the following command:
+uv: A fast Python package installer. .
 
-  python main.py
+Groq API Key: Required for the LLM inference. .
+
+⚙️ Installation & Setup
+Initialize Environment
+
+Install Dependencies
+
+Configure Environment
+Create a .env file based on .sample_env:
+
+Run the Application
+
 🧪 Example Prompts
-Create a to-do list application using html, css, and javascript.
-Create a simple calculator web application.
+"Build a colorful modern todo app in HTML, CSS, and JS."
+
+"Create a Python script that scrapes weather data and saves it to a CSV."
+
+"Build a simple calculator web application."
