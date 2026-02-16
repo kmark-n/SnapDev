@@ -43,3 +43,9 @@ SnapDev utilizes three distinct agents to manage the development lifecycle:
 * “Build a simple calculator web application.”
 
 ---
+
+
+## 🎥 Watch the Demo
+Experience how the system works in real time 👇
+
+[![Watch the video](https://img.youtube.com/vi/-dWI1VnZx48/hqdefault.jpg)](https://www.youtube.com/watch?v=-dWI1VnZx48)
