@@ -40,7 +40,7 @@ def get_current_directory() -> str:
     return str(PROJECT_ROOT)
 
 
-@tool
+@tool ("list_file")
 def list_files(directory: str = ".") -> str:
     """Lists all files in the specified directory within the project root."""
     p = safe_path_for_project(directory)

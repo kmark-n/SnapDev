@@ -1,0 +1,384 @@
+/*
+    styles.css - Calculator UI styling
+    Implements responsive design, CSS variables, and button interaction states.
+*/
+
+/* Root variables for theming */
+:root {
+    /* Colors */
+    --color-bg: #f5f5f5;
+    --color-primary: #2c3e50;          /* dark text */
+    --color-secondary: #34495e;        /* button background */
+    --color-accent: #e74c3c;           /* clear / error */
+    --color-button-hover: #3d566e;    /* slightly lighter */
+    --color-button-active: #1a252f;   /* pressed */
+    --color-disabled: #bdc3c7;        /* disabled state */
+    --color-display-bg: #ecf0f1;
+    --color-display-text: #2c3e50;
+
+    /* Todo specific colors */
+    --color-todo-bg: #ffffff;
+    --color-todo-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --color-task-border: #e0e0e0;
+    --color-input-bg: #fafafa;
+    --color-input-border: #dcdcdc;
+    --color-filter-bg: #f0f0f0;
+    --color-filter-hover: #e0e0e0;
+    --color-clear-bg: #e74c3c;
+    --color-clear-hover: #c0392b;
+
+    /* Font sizes */
+    --font-size-display: 2.2rem;
+    --font-size-button: 1.4rem;
+    --font-size-button-small: 1.2rem;
+    --font-size-todo: 1rem;
+    --font-size-todo-large: 1.2rem;
+
+    /* Spacing & sizing */
+    --spacing: 0.8rem;
+    --border-radius: 0.5rem;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Global resets */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing);
+}
+
+/* --------------------------------------------------- */
+/* Calculator styles (unchanged) */
+/* --------------------------------------------------- */
+#calculator {
+    background-color: #fff;
+    max-width: 420px;
+    width: 100%;
+    margin: var(--spacing);
+    padding: var(--spacing);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+}
+
+.display {
+    background-color: var(--color-display-bg);
+    color: var(--color-display-text);
+    height: 4rem;               /* fixed height */
+    line-height: 4rem;
+    font-size: var(--font-size-display);
+    text-align: right;
+    padding: 0 var(--spacing);
+    border-radius: var(--border-radius);
+    overflow-x: auto;           /* horizontal overflow handling */
+    overflow-y: hidden;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing);
+}
+
+.buttons button {
+    background-color: var(--color-secondary);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-button);
+    padding: var(--spacing);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    min-height: 3rem; /* ensures uniform height */
+}
+
+.buttons button:hover {
+    background-color: var(--color-button-hover);
+}
+
+.buttons button:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.buttons button:active {
+    background-color: var(--color-button-active);
+    transform: translateY(1px);
+}
+
+button.active {
+    background-color: var(--color-button-active) !important;
+    transform: translateY(1px) !important;
+}
+
+button:disabled, button.disabled {
+    background-color: var(--color-disabled);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#btn-clear, #btn-backspace {
+    background-color: var(--color-accent);
+}
+
+#btn-clear:hover, #btn-backspace:hover {
+    background-color: #c0392b;
+}
+
+#btn-equals {
+    background-color: var(--color-accent);
+    grid-row: span 2; /* occupy two rows vertically */
+    align-self: stretch;
+}
+
+#btn-equals:hover {
+    background-color: #c0392b;
+}
+
+#btn-0 {
+    grid-column: span 2;
+}
+
+@media (max-width: 500px) {
+    #calculator {
+        max-width: 100%;
+        padding: calc(var(--spacing) / 2);
+    }
+    .display {
+        height: 3.5rem;
+        line-height: 3.5rem;
+        font-size: 1.8rem;
+    }
+    .buttons button {
+        font-size: var(--font-size-button);
+        padding: calc(var(--spacing) / 1.5);
+    }
+}
+
+@media (max-width: 400px) {
+    .buttons button {
+        font-size: var(--font-size-button-small);
+    }
+    .display {
+        font-size: 1.6rem;
+    }
+}
+
+.buttons {
+    grid-auto-rows: minmax(3rem, auto);
+}
+
+/* --------------------------------------------------- */
+/* Todo List styles */
+/* --------------------------------------------------- */
+
+/* Container */
+#todo-app {
+    background-color: var(--color-todo-bg);
+    max-width: 500px;
+    width: 100%;
+    margin: var(--spacing);
+    padding: calc(var(--spacing) * 1.5);
+    border-radius: var(--border-radius);
+    box-shadow: var(--color-todo-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+}
+
+/* Input Section */
+#input-section {
+    display: flex;
+    gap: var(--spacing);
+}
+
+#new-task-input {
+    flex: 1;
+    padding: var(--spacing);
+    font-size: var(--font-size-todo);
+    border: 1px solid var(--color-input-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-input-bg);
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+#new-task-input:focus {
+    border-color: var(--color-primary);
+}
+
+#add-task-btn {
+    padding: var(--spacing);
+    font-size: var(--font-size-todo);
+    background-color: var(--color-secondary);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#add-task-btn:hover {
+    background-color: var(--color-button-hover);
+}
+
+#add-task-btn:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Task List */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 2);
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing);
+    border-bottom: 1px solid var(--color-task-border);
+    background-color: #fff;
+    border-radius: var(--border-radius);
+}
+
+.task-item .task-text {
+    flex: 1;
+    font-size: var(--font-size-todo);
+    word-break: break-word;
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Editing state */
+.task-item.editing .task-text {
+    display: none;
+}
+
+.task-item.editing .edit-input {
+    display: block;
+    flex: 1;
+    padding: var(--spacing);
+    font-size: var(--font-size-todo);
+    border: 1px solid var(--color-input-border);
+    border-radius: var(--border-radius);
+    margin-right: var(--spacing);
+}
+
+/* Hide edit input by default */
+.edit-input {
+    display: none;
+}
+
+/* Control Buttons inside task items (e.g., edit, delete) */
+.task-item button {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    margin-left: var(--spacing);
+    font-size: 1.2rem;
+    padding: 0;
+}
+
+.task-item button:hover {
+    color: var(--color-accent);
+}
+
+/* Filter Controls */
+.filter-controls {
+    display: flex;
+    gap: var(--spacing);
+    justify-content: center;
+    margin-top: var(--spacing);
+}
+
+.filter-btn {
+    padding: calc(var(--spacing) / 2) var(--spacing);
+    background-color: var(--color-filter-bg);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-todo);
+    transition: background-color 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: var(--color-filter-hover);
+}
+
+.filter-btn.active {
+    background-color: var(--color-secondary);
+    color: #fff;
+}
+
+/* Footer */
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing);
+}
+
+#clear-completed-btn {
+    padding: calc(var(--spacing) / 2) var(--spacing);
+    background-color: var(--color-clear-bg);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-todo);
+    transition: background-color 0.2s ease;
+}
+
+#clear-completed-btn:hover {
+    background-color: var(--color-clear-hover);
+}
+
+#clear-completed-btn:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Responsive adjustments for Todo List */
+@media (max-width: 600px) {
+    #todo-app {
+        padding: var(--spacing);
+    }
+    #new-task-input, #add-task-btn, .filter-btn, #clear-completed-btn {
+        font-size: 0.9rem;
+    }
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .task-item button {
+        margin-top: calc(var(--spacing) / 2);
+    }
+    .filter-controls {
+        flex-wrap: wrap;
+        gap: calc(var(--spacing) / 2);
+    }
+}

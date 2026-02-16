@@ -7,7 +7,7 @@ from langgraph.prebuilt import create_react_agent
 
 from agent.prompts import *
 from agent.states import *
-from agent.tools import write_file, read_file, get_current_directory, list_files
+from agent.tools import write_file, read_file, get_current_directory, list_files, run_cmd
 
 _ = load_dotenv()
 
@@ -20,9 +20,14 @@ llm = ChatGroq(model="openai/gpt-oss-120b")
 def planner_agent(state: dict) -> dict:
     """Converts user prompt into a structured Plan."""
     user_prompt = state["user_prompt"]
-    resp = llm.with_structured_output(Plan).invoke(
-        planner_prompt(user_prompt)
+    system_instruction = (
+        "You are a technical architect. Your output must be ONLY the JSON "
+        "required to satisfy the Plan schema. Do not include introductory text."
     )
+    resp = llm.with_structured_output(Plan).invoke([
+        {"role": "system", "content": system_instruction},
+        {"role": "user", "content": planner_prompt(user_prompt)}
+    ])
     if resp is None:
         raise ValueError("Planner did not return a valid response.")
     return {"plan": resp}
@@ -63,7 +68,7 @@ def coder_agent(state: dict) -> dict:
         "Use write_file(path, content) to save your changes."
     )
 
-    coder_tools = [read_file, write_file, list_files, get_current_directory]
+    coder_tools = [read_file, write_file, list_files, get_current_directory, run_cmd]
     react_agent = create_react_agent(llm, coder_tools)
 
     react_agent.invoke({"messages": [{"role": "system", "content": system_prompt},
